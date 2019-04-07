@@ -8,13 +8,11 @@ function Soldier(health,strength){
     return this.strength
   }
    this.receiveDamage = (damage) =>{
-    this.health -=damage
+    this.health -= damage
      //console.log(`Al Soldado le queda ${this.health} vida`)
    }
 }
 const soldier1 = new Soldier(4,2)
-console.log(soldier1.attack())
-console.log(soldier1.receiveDamage(1))
 
 // Viking
 function Viking(name, health, strength){
@@ -58,20 +56,43 @@ let Saxon = function(health,strenght){
 
 // War
 function War (){
+  this.vikingArmy =[]
+  this.saxonArmy =[]
   this.addViking = (viking) =>{
-    new Array()
+    this.vikingArmy.push(viking)
   }
   this.addSaxon = (saxon) =>{
-    new Array()
+    this.saxonArmy.push(saxon)
   }
   this.vikingAttack = () =>{
-
+    const randomViking = Math.floor(Math.random() * this.vikingArmy.length)
+    const randomSaxon = Math.floor(Math.random() * this.saxonArmy.length)
+    const viking = this.vikingArmy[randomViking]
+    const saxon = this.saxonArmy[randomSaxon]
+    const attackResult = saxon.receiveDamage(viking.attack())
+    this.saxonArmy = this.saxonArmy.filter(saxon => saxon.health > 0)
+    return attackResult
   }
   this.saxonAttack = () =>{
-
+    const randomViking = Math.floor(Math.random() * this.vikingArmy.length)
+    const randomSaxon = Math.floor(Math.random() * this.saxonArmy.length)
+    const viking = this.vikingArmy[randomViking]
+    const saxon = this.saxonArmy[randomSaxon]
+    const attackResult = viking.receiveDamage(saxon.attack())
+    this.vikingArmy = this.vikingArmy.filter(viking => viking.health > 0)
+    return attackResult
   }
-  this.showStatus = () =>{
 
+  this.showStatus = () =>{
+    if(this.saxonArmy.length === 0){
+      return "Vikings have won the war of the century!"
+    }
+    else if(this.vikingArmy.length === 0){
+      return "Saxons have fought for their lives and survive another day..."
+    }
+    else{
+      return "Vikings and Saxons are still in the thick of battle."
+    }
   }
 
 }
